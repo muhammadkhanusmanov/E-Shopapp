@@ -35,7 +35,7 @@ class RegisterView(APIView):
                 return Response({'status':'This username is already'},status=status.HTTP_208_ALREADY_REPORTED)
     
 class UserView(APIView):
-    permission_classes = [BaseExceptionGroup]
+    authentication_classes = [BasicAuthentication]
     '''login user'''
     def post(self, request):
         user = request.user
