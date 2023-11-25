@@ -12,7 +12,7 @@ from rest_framework.authentication import TokenAuthentication, BasicAuthenticati
 
 
 
-class UserView(APIView):
+class RegisterView(APIView):
     '''Sign up a user'''
     def post(self, request):
         data = request.data
@@ -33,4 +33,23 @@ class UserView(APIView):
                 return Response({'status':'Create a user', 'token':token.key},status=status.HTTP_201_CREATED)
             except:
                 return Response({'status':'This username is already'},status=status.HTTP_208_ALREADY_REPORTED)
+    
+class UserView(APIView):
+    permission_classes = [BaseExceptionGroup]
+    '''login user'''
+    def post(self, request):
+        user = request.user
+        token = Token.objects.get_or_create(user=user)
+        token = str(token[0])
+        return Response({'token':token},status=status.HTTP_201_CREATED)
+    
+class LogoutView(APIView):
+    '''logout a user'''
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    def delate(self,request):
+        user = request.user
+        token = Token.objects.get(user=user)
+        token.delete()
+        return Response({'status':'delated token'},status=status.HTTP_200_OK)
 
