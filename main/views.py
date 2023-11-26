@@ -41,7 +41,7 @@ class UserView(APIView):
         user = request.user
         token = Token.objects.get_or_create(user=user)
         token = str(token[0])
-        return Response({'token':token},status=status.HTTP_201_CREATED)
+        return Response({'detail':True,'token':token},status=status.HTTP_201_CREATED)
     
 class LogoutView(APIView):
     '''logout a user'''
@@ -52,4 +52,6 @@ class LogoutView(APIView):
         token = Token.objects.get(user=user)
         token.delete()
         return Response({'status':'delated token'},status=status.HTTP_200_OK)
+
+
 
