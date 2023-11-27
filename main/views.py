@@ -10,10 +10,10 @@ from django.contrib.auth.hashers import make_password
 from rest_framework.permissions import IsAuthenticated,IsAdminUser
 from rest_framework.authentication import TokenAuthentication, BasicAuthentication
 
-from .models import Categories
+from .models import Categories,Products
 
 from .serializers.serializers import (
-    CategorySerializer
+    CategorySerializer, ProductsSerialzer
 )
 
 
@@ -67,6 +67,13 @@ class CategoryView(APIView):
         categories = Categories.objects.all()
         categories = CategorySerializer(categories,many=True).data
         return Response({'status':True,'categories':categories},status=status.HTTP_200_OK)
+
+class ProductView(APIView):
+    '''get all products'''
+    def get(self,request):
+        products = Products.objects.all()
+        products = ProductsSerialzer(products,many=True).data
+        return Response({'status':True,'products':products},status=status.HTTP_200_OK)
 
 
 
