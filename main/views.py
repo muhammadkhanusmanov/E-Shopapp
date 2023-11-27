@@ -59,6 +59,17 @@ class LogoutView(APIView):
         token.delete()
         return Response({'status':'delated token'},status=status.HTTP_200_OK)
     
+class CategoryImg(APIView):
+    def get(self, request,id:str):
+        try:
+            category = Category.objects.get(id=id)
+            img =category.photo 
+            file = open(img.path, 'rb')
+            resp = FileResponse(file)
+            return resp
+        except:
+            return Response({'status':False}, status=status.HTTP_400_BAD_REQUEST)
+    
 class CategoryView(APIView):
     '''get all categories'''
     def get(self,request):
@@ -66,6 +77,7 @@ class CategoryView(APIView):
         resuts = []
         for category in categories:
             a = CategorySerializer(category).data
+            a['photo']=f'http://ebozorapi.pythonanywhere.com/api/v2/save/{a["id"]}'
             resuts.append(a)
         return Response({'status':True,'categories':resuts},status=status.HTTP_200_OK)
 
