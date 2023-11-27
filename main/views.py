@@ -10,6 +10,12 @@ from django.contrib.auth.hashers import make_password
 from rest_framework.permissions import IsAuthenticated,IsAdminUser
 from rest_framework.authentication import TokenAuthentication, BasicAuthentication
 
+from .models import Category
+
+from .serializers.serializers import (
+    CategorySerializer
+)
+
 
 
 class RegisterView(APIView):
@@ -52,6 +58,17 @@ class LogoutView(APIView):
         token = Token.objects.get(user=user)
         token.delete()
         return Response({'status':'delated token'},status=status.HTTP_200_OK)
+    
+class CategoryView(APIView):
+    '''get all categories'''
+    def get(self,request):
+        categories = Category.objects.all()
+        resuts = []
+        for category in categories:
+            a = CategorySerializer(category).data
+            resuts.append(a)
+        return Response({'status':True,'categories':resuts},status=status.HTTP_200_OK)
+
 
 
 
