@@ -7,7 +7,7 @@ class CategorySerializer(ModelSerializer):
         fields = '__all__'
 
 class ProductsSerialzer(ModelSerializer):
-    category = CategorySerializer(many=True)
+    category = CategorySerializer()
     class Meta:
         model = Products
         fields = '__all__'
