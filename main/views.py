@@ -75,6 +75,21 @@ class ProductView(APIView):
         products = ProductsSerialzer(products,many=True).data
         return Response({'status':True,'products':products},status=status.HTTP_200_OK)
 
-
-
+    '''get products by category id'''
+    def post(self, request,id:str):
+        try:
+            category = Categories.objects.get(id=id)
+            products = Products.objects.filter(category=category)
+            products = ProductsSerialzer(products,many=True).data
+            return Response({'status':True,'products':products},status=status.HTTP_200_OK)
+        except:
+            return Response({'status':False},status=status.HTTP_400_BAD_REQUEST)
+    
+    def put(self,request,id:str):
+        try:
+            product = Products.objects.get(id=id)
+            product = ProductsSerialzer(product).data
+            return Response({'status':True,'product':product},status=status.HTTP_200_OK)
+        except:
+            return Response({'status':False},status=status.HTTP_400_BAD_REQUEST)
 
