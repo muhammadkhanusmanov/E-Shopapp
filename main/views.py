@@ -72,8 +72,10 @@ class ProductView(APIView):
     '''get all products'''
     def get(self,request):
         products = Products.objects.all()
-        products = ProductsSerialzer(products,many=True).data
-        return Response({'status':True,'products':products},status=status.HTTP_200_OK)
+        result = []
+        for product in products:
+            result.append(ProductsSerialzer(product).data)
+        return Response({'status':True,'products':result},status=status.HTTP_200_OK)
 
     '''get products by category id'''
     def post(self, request,id:str):
