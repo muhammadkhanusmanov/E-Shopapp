@@ -83,10 +83,13 @@ class ProductView(APIView):
             category = Categories.objects.get(id=id)
             products = Products.objects.filter(category=category)
             products = ProductsSerialzer(products,many=True).data
-            return Response({'status':True,'products':products},status=status.HTTP_200_OK)
+            category = CategorySerializer(category).data
+            result = {'status':True,'category':category,'products':products}
+            return Response(result,status=status.HTTP_200_OK)
         except:
             return Response({'status':False},status=status.HTTP_400_BAD_REQUEST)
     
+    '''get a product by id'''
     def put(self,request,id:str):
         try:
             product = Products.objects.get(id=id)
