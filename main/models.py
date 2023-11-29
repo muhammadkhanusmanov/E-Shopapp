@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import User
+
 
 class Categories(models.Model):
     name = models.CharField(max_length=50)
@@ -17,5 +19,16 @@ class Products(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+class UserProduct(models.Model):
+    product = models.ForeignKey(Products, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    quanity = models.IntegerField()
+    extra_number = models.CharField(max_length=25)
+    longitude = models.CharField(max_length=75)
+    latitude = models.CharField(max_length=75)
+
+    def __str__(self) -> str:
+        return f'{self.user.username} {self.product.name}'
 
 
