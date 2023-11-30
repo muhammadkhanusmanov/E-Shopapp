@@ -10,10 +10,10 @@ from django.contrib.auth.hashers import make_password
 from rest_framework.permissions import IsAuthenticated,IsAdminUser
 from rest_framework.authentication import TokenAuthentication, BasicAuthentication
 
-from .models import Categories,Products
+from .models import Categories,Products, UserProduct
 
 from .serializers.serializers import (
-    CategorySerializer, ProductsSerialzer
+    CategorySerializer, ProductsSerialzer,GoodsSerializer
 )
 
 
@@ -97,4 +97,26 @@ class ProductView(APIView):
             return Response({'status':True,'product':product},status=status.HTTP_200_OK)
         except:
             return Response({'status':False},status=status.HTTP_400_BAD_REQUEST)
+        
+class BuyingView(APIView):
+    '''a user orders products'''
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    def post(self, request):
+        user = request.user
+        data = request.data
+        resp = {
+            'product':data.get('product'),
+            'user':user.id,
+            'quanity':int(data.get('quanity')),
+            'extra_number':data.get('extra_number'),
+            'longitude':data.get('lonitude'),
+            'latitude':data.get('latitude')
+        }
+        buying = GoodsSerializer(data=resp)
+        print(buying)
+        if buying.is_valid():
+            buying.save()
+            return Response({'status': True},status=status.HTTP_201_CREATED)
+        return Response({'status': False},status=status.HTTP_400_BAD_REQUEST)
 
