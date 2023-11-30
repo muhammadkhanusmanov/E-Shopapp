@@ -110,7 +110,7 @@ class BuyingView(APIView):
             'user':user.id,
             'quanity':int(data.get('quanity')),
             'extra_number':data.get('extra_number'),
-            'longitude':data.get('lonitude'),
+            'longitude':data.get('longitude'),
             'latitude':data.get('latitude')
         }
         buying = GoodsSerializer(data=resp)
