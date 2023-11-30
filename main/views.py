@@ -97,6 +97,14 @@ class ProductView(APIView):
             return Response({'status':True,'product':product},status=status.HTTP_200_OK)
         except:
             return Response({'status':False},status=status.HTTP_400_BAD_REQUEST)
+
+
+class SearchProduct(APIView):
+    '''Search product'''
+    def get(self,request,name:str):
+        products = Products.objects.filter(name__icontains=name)
+        products = ProductsSerialzer(products, many=True).data
+        return Response({'status':True,'products':products},status=status.HTTP_200_OK)
         
 class BuyingView(APIView):
     '''a user orders products'''
