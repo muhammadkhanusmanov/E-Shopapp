@@ -27,6 +27,7 @@ class UserProduct(models.Model):
     extra_number = models.CharField(max_length=25)
     longitude = models.CharField(max_length=75)
     latitude = models.CharField(max_length=75)
+    date = models.DateTimeField(auto_created=True, auto_now=True)
 
     def __str__(self) -> str:
         return f'{self.user.username} {self.product.name}'
