@@ -10,10 +10,10 @@ from django.contrib.auth.hashers import make_password
 from rest_framework.permissions import IsAuthenticated,IsAdminUser
 from rest_framework.authentication import TokenAuthentication, BasicAuthentication
 
-from .models import Categories,Products, UserProduct
+from .models import Categories,Products, UserProduct,ReklamaProduct
 
 from .serializers.serializers import (
-    CategorySerializer, ProductsSerialzer,GoodsSerializer
+    CategorySerializer, ProductsSerialzer,GoodsSerializer, RProductsSerializer
 )
 
 
@@ -122,9 +122,15 @@ class BuyingView(APIView):
             'latitude':data.get('latitude')
         }
         buying = GoodsSerializer(data=resp)
-        print(buying)
         if buying.is_valid():
             buying.save()
             return Response({'status': True},status=status.HTTP_201_CREATED)
         return Response({'status': False},status=status.HTTP_400_BAD_REQUEST)
+
+class Reklama(APIView):
+    '''get all marketing things'''
+    def get(self, request):
+        data = ReklamaProduct.objects.all()
+        data = RProductsSerializer(data,many=True).data
+        return Response({'status':True, 'data':data}, status=status.HTTP_200_OK)
 
