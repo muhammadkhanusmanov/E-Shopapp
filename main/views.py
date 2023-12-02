@@ -10,7 +10,7 @@ from django.contrib.auth.hashers import make_password
 from rest_framework.permissions import IsAuthenticated,IsAdminUser
 from rest_framework.authentication import TokenAuthentication, BasicAuthentication
 
-from .models import Categories,Products, UserProduct,ReklamaProduct
+from .models import Categories,Products, UserProduct,MarketProduct
 
 from .serializers.serializers import (
     CategorySerializer, ProductsSerialzer,GoodsSerializer, RProductsSerializer
@@ -130,7 +130,7 @@ class BuyingView(APIView):
 class Reklama(APIView):
     '''get all marketing things'''
     def get(self, request):
-        data = ReklamaProduct.objects.all()
+        data = MarketProduct.objects.all()
         data = RProductsSerializer(data,many=True).data
         return Response({'status':True, 'data':data}, status=status.HTTP_200_OK)
 
