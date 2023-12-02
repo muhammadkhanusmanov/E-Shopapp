@@ -10,10 +10,10 @@ from django.contrib.auth.hashers import make_password
 from rest_framework.permissions import IsAuthenticated,IsAdminUser
 from rest_framework.authentication import TokenAuthentication, BasicAuthentication
 
-from .models import Categories,Products, UserProduct,MarketProduct
+from .models import Categories,Products, UserProduct,MarketProduct,RecomntsProduct
 
 from .serializers.serializers import (
-    CategorySerializer, ProductsSerialzer,GoodsSerializer, RProductsSerializer
+    CategorySerializer, ProductsSerialzer,GoodsSerializer, RProductsSerializer, RecomentSerializer
 )
 
 
@@ -134,3 +134,9 @@ class Reklama(APIView):
         data = RProductsSerializer(data,many=True).data
         return Response({'status':True, 'data':data}, status=status.HTTP_200_OK)
 
+class Recomentgoods(APIView):
+    '''get all recoments products'''
+    def get(self, request):
+        data = RecomntsProduct.objects.all()
+        data = RecomentSerializer(many=True).data
+        return Response(data,status=status.HTTP_200_OK)
