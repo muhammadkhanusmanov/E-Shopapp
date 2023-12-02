@@ -1,6 +1,6 @@
 from django.contrib import admin
-from .models import Categories, Products, UserProduct, ReklamaProduct
+from .models import Categories, Products, UserProduct, MarketProduct
 
 admin.site.register([
-    Categories,Products, UserProduct,ReklamaProduct
+    Categories,Products, UserProduct, MarketProduct
 ])
