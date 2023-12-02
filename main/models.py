@@ -32,4 +32,11 @@ class UserProduct(models.Model):
     def __str__(self) -> str:
         return f'{self.user.username} {self.product.name}'
 
+class ReklamaProduct(models.Model):
+    name = models.CharField(max_length=30)
+    img_url = models.URLField(max_length=175)
+
+    def __str__(self) -> str:
+        return self.name
+
 
