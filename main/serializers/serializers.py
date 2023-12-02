@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer
-from ..models import Categories, Products, UserProduct
+from ..models import Categories, Products, UserProduct, ReklamaProduct
 from rest_framework import serializers
 
 class CategorySerializer(ModelSerializer):
@@ -19,4 +19,16 @@ class ProductsSerialzer(ModelSerializer):
 class GoodsSerializer(ModelSerializer):
     class Meta:
         model = UserProduct
+        fields = '__all__'
+
+class ReklamaSerializer(ModelSerializer):
+    '''get images and names for marketing'''
+    class Meta:
+        model = ReklamaProduct
+        fields = ('name', 'img_url')
+
+class RProductsSerializer(ModelSerializer):
+    '''get products in Mareting'''
+    class Meta:
+        model = ReklamaProduct
         fields = '__all__'
