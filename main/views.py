@@ -138,5 +138,5 @@ class Recomentgoods(APIView):
     '''get all recoments products'''
     def get(self, request):
         data = RecomntsProduct.objects.all()
-        data = RecomentSerializer(many=True).data
+        data = RecomentSerializer(data,many=True).data
         return Response(data,status=status.HTTP_200_OK)
