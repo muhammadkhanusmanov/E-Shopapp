@@ -21,11 +21,6 @@ class GoodsSerializer(ModelSerializer):
         model = UserProduct
         fields = '__all__'
 
-class ReklamaSerializer(ModelSerializer):
-    '''get images and names for marketing'''
-    class Meta:
-        model = ReklamaProduct
-        fields = ('name', 'img_url')
 
 class RProductsSerializer(ModelSerializer):
     '''get products in Mareting'''
