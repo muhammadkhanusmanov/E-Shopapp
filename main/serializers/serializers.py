@@ -24,6 +24,7 @@ class GoodsSerializer(ModelSerializer):
 
 class RProductsSerializer(ModelSerializer):
     '''get products in Mareting'''
+    products = ProductsSerialzer(many=True)
     class Meta:
         model = MarketProduct
         fields = '__all__'
