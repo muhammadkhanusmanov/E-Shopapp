@@ -20,10 +20,10 @@ class Products(models.Model):
     def __str__(self) -> str:
         return self.name
 
-class UserProduct(models.Model):
-    product = models.ForeignKey(Products, on_delete=models.CASCADE)
+class UsersProduct(models.Model):
+    product = models.ManyToManyField(Products)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    quanity = models.IntegerField()
+    quanity = models.CharField(max_length=75)
     extra_number = models.CharField(max_length=25)
     longitude = models.CharField(max_length=75)
     latitude = models.CharField(max_length=75)
