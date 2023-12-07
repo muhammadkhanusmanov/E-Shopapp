@@ -52,7 +52,7 @@ class UserView(APIView):
 
     def handle_exception(self, exc):
             if isinstance(exc, AuthenticationFailed):
-                return Response({'status': 'error', 'message': 'Invalid username or password.'}, status=401)
+                return Response({'status': False, 'message': 'Invalid username or password.'}, status=401)
             return super().handle_exception(exc)
     
 class LogoutView(APIView):
