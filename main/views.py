@@ -131,11 +131,11 @@ class BuyingView(APIView):
             'latitude':data['latitude']
         }
         print(resp)
-        # buying = GoodsSerializer(data=resp)
-        # if buying.is_valid():
-        #     buying.save()
-        return Response({'status': True},status=status.HTTP_201_CREATED)
-        # return Response({'status': False},status=status.HTTP_400_BAD_REQUEST)
+        buying = GoodsSerializer(data=resp)
+        if buying.is_valid():
+            buying.save()
+            return Response({'status': True},status=status.HTTP_201_CREATED)
+        return Response({'status': False},status=status.HTTP_400_BAD_REQUEST)
 
 class Reklama(APIView):
     '''get all marketing things'''
