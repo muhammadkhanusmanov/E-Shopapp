@@ -11,7 +11,7 @@ from rest_framework.permissions import IsAuthenticated,IsAdminUser
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.authentication import TokenAuthentication, BasicAuthentication
 
-from .models import Categories,Products, UserProduct,MarketProduct,RecomntsProduct
+from .models import Categories,Products, UsersProduct,MarketProduct,RecomntsProduct
 
 from .serializers.serializers import (
     CategorySerializer, ProductsSerialzer,GoodsSerializer, RProductsSerializer, RecomentSerializer
@@ -111,7 +111,9 @@ class SearchProduct(APIView):
         products = Products.objects.filter(name__icontains=name)
         products = ProductsSerialzer(products, many=True).data
         return Response({'status':True,'products':products},status=status.HTTP_200_OK)
-        
+
+import json
+
 class BuyingView(APIView):
     '''a user orders products'''
     authentication_classes = [TokenAuthentication]
@@ -119,14 +121,16 @@ class BuyingView(APIView):
     def post(self, request):
         user = request.user
         data = request.data
+        print(data['product'])
         resp = {
             'product':data.get('product'),
             'user':user.id,
-            'quanity':int(data.get('quanity')),
+            'quanity':str(data.get('quanity')),
             'extra_number':data.get('extra_number'),
             'longitude':data.get('longitude'),
             'latitude':data.get('latitude')
         }
+        print(resp)
         buying = GoodsSerializer(data=resp)
         if buying.is_valid():
             buying.save()
