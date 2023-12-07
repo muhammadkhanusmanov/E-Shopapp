@@ -8,6 +8,7 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from rest_framework.permissions import IsAuthenticated,IsAdminUser
+from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.authentication import TokenAuthentication, BasicAuthentication
 
 from .models import Categories,Products, UserProduct,MarketProduct,RecomntsProduct
@@ -48,6 +49,11 @@ class UserView(APIView):
         token = Token.objects.get_or_create(user=user)
         token = str(token[0])
         return Response({'detail':True,'token':token},status=status.HTTP_201_CREATED)
+
+    def handle_exception(self, exc):
+            if isinstance(exc, AuthenticationFailed):
+                return Response({'status': 'error', 'message': 'Invalid username or password.'}, status=401)
+            return super().handle_exception(exc)
     
 class LogoutView(APIView):
     '''logout a user'''
