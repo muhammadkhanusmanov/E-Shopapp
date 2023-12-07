@@ -121,6 +121,7 @@ class BuyingView(APIView):
     def post(self, request):
         user = request.user
         data = request.data
+        data = json.loads(data)
         resp = {
             'product':data['products'],
             'user':user.id,
@@ -129,11 +130,12 @@ class BuyingView(APIView):
             'longitude':data['longitude'],
             'latitude':data['latitude']
         }
-        buying = GoodsSerializer(data=resp)
-        if buying.is_valid():
-            buying.save()
-            return Response({'status': True},status=status.HTTP_201_CREATED)
-        return Response({'status': False},status=status.HTTP_400_BAD_REQUEST)
+        print(resp)
+        # buying = GoodsSerializer(data=resp)
+        # if buying.is_valid():
+        #     buying.save()
+        return Response({'status': True},status=status.HTTP_201_CREATED)
+        # return Response({'status': False},status=status.HTTP_400_BAD_REQUEST)
 
 class Reklama(APIView):
     '''get all marketing things'''
