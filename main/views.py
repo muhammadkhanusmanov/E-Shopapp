@@ -116,18 +116,18 @@ import json
 
 class BuyingView(APIView):
     '''a user orders products'''
-    
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     def post(self, request):
         user = request.user
         data = request.data
-        data = json.loads(data)
         resp = {
-            'product':data.get('product'),
-            'user':2,
-            'quanity':str(data.get('quanity')),
-            'extra_number':data.get('extra_number'),
-            'longitude':data.get('longitude'),
-            'latitude':data.get('latitude')
+            'product':data['products'],
+            'user':user.id,
+            'quanity':str(data['quanity']),
+            'extra_number':data['extra_number'],
+            'longitude':data['longitude'],
+            'latitude':data['latitude']
         }
         buying = GoodsSerializer(data=resp)
         if buying.is_valid():
