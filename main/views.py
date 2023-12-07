@@ -121,7 +121,6 @@ class BuyingView(APIView):
     def post(self, request):
         user = request.user
         data = request.data
-        print(data['product'])
         resp = {
             'product':data.get('product'),
             'user':user.id,
@@ -130,7 +129,6 @@ class BuyingView(APIView):
             'longitude':data.get('longitude'),
             'latitude':data.get('latitude')
         }
-        print(resp)
         buying = GoodsSerializer(data=resp)
         if buying.is_valid():
             buying.save()
