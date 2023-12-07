@@ -116,14 +116,14 @@ import json
 
 class BuyingView(APIView):
     '''a user orders products'''
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
+    
     def post(self, request):
         user = request.user
         data = request.data
+        data = json.loads(data)
         resp = {
             'product':data.get('product'),
-            'user':user.id,
+            'user':2,
             'quanity':str(data.get('quanity')),
             'extra_number':data.get('extra_number'),
             'longitude':data.get('longitude'),
