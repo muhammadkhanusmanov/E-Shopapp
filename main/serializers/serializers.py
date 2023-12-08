@@ -17,6 +17,7 @@ class ProductsSerialzer(ModelSerializer):
         fields = '__all__'
 
 class GoodsSerializer(ModelSerializer):
+    product = ProductsSerialzer(many=True)
     class Meta:
         model = UsersProduct
         fields = '__all__'
