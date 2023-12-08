@@ -135,6 +135,15 @@ class BuyingView(APIView):
             buying.save()
             return Response({'status': True},status=status.HTTP_201_CREATED)
         return Response({'status': False},status=status.HTTP_400_BAD_REQUEST)
+    
+    def get(self,request):
+        user = request.user
+        goods = UsersProduct.objects.filter(user=user)
+        result = []
+        data = GoodsSerializer(goods,many=True).data
+        for i in data:
+            result.append({"date":i["date"],"products":i["product"]})
+        return Response({'status':True,'products':result},status=status.HTTP_200_OK)
 
 class Reklama(APIView):
     '''get all marketing things'''
