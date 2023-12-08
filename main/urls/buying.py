@@ -6,5 +6,6 @@ from ..views import (
 
 
 urlpatterns = [
-    path('buying/',BuyingView.as_view())
+    path('buying/',BuyingView.as_view()),
+    path('user/goods/',BuyingView.as_view()),
 ]
