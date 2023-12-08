@@ -121,16 +121,15 @@ class BuyingView(APIView):
     def post(self, request):
         user = request.user
         data = request.data
-        data = json.loads(data)
+        data = dict(data)
         resp = {
             'product':data['products'],
             'user':user.id,
             'quanity':str(data['quanity']),
-            'extra_number':data['extra_number'],
-            'longitude':data['longitude'],
-            'latitude':data['latitude']
+            'extra_number':data['extra_number'][0],
+            'longitude':data['longitude'][0],
+            'latitude':data['latitude'][0]
         }
-        print(resp)
         buying = GoodsSerializer(data=resp)
         if buying.is_valid():
             buying.save()
