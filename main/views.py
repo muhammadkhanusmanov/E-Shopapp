@@ -122,19 +122,19 @@ class BuyingView(APIView):
         user = request.user
         data = request.data
         data = dict(data)
-        resp = {
-            'product':data['products'],
-            'user':user.id,
-            'quanity':str(data['quanity']),
-            'extra_number':data['extra_number'][0],
-            'longitude':data['longitude'][0],
-            'latitude':data['latitude'][0]
-        }
-        buying = GoodsSerializer(data=resp)
-        if buying.is_valid():
-            buying.save()
+        try:
+            a = UsersProduct.objects.create(
+                user=user,
+                quanity=str(data['quanity']),
+                extra_number=data['extra_number'][0],
+                longitude=data['longitude'][0],
+                latitude=data['latitude'][0]
+            )
+            a.product.set(data['products'])
+            a.save()
             return Response({'status': True},status=status.HTTP_201_CREATED)
-        return Response({'status': False},status=status.HTTP_400_BAD_REQUEST)
+        except:
+            return Response({'status': False},status=status.HTTP_400_BAD_REQUEST)
     
     def get(self,request):
         user = request.user
