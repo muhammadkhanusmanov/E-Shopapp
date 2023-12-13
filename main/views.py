@@ -59,11 +59,11 @@ class LogoutView(APIView):
     '''logout a user'''
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
-    def delate(self,request):
+    def delete(self,request):
         user = request.user
         token = Token.objects.get(user=user)
         token.delete()
-        return Response({'status':'delated token'},status=status.HTTP_200_OK)
+        return Response({'status':True},status=status.HTTP_200_OK)
     
 
     
