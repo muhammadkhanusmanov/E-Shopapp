@@ -10,5 +10,6 @@ from ..views import (
 urlpatterns = [
     path('signup/',RegisterView.as_view()),
     path('login/',UserView.as_view()),
-    path('logout/',LogoutView.as_view())
+    path('logout/',LogoutView.as_view()),
+    path('user/data/',LogoutView.as_view())
 ]
