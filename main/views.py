@@ -11,12 +11,13 @@ from rest_framework.permissions import IsAuthenticated,IsAdminUser
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.authentication import TokenAuthentication, BasicAuthentication
 
-from .models import Categories,Products, UsersProduct,MarketProduct,RecomntsProduct
+from .models import Categories,Products, UsersProduct,MarketProduct,RecomntsProduct,Setting
 
 from .serializers.serializers import (
     CategorySerializer, ProductsSerialzer,GoodsSerializer, RProductsSerializer, RecomentSerializer
 )
 
+from telegram import Bot, ParseMode
 
 
 class RegisterView(APIView):
@@ -140,6 +141,21 @@ class BuyingView(APIView):
             )
             a.product.set(data['products'])
             a.save()
+            resp =f'*Yangi buyurtma✅*\nUser: {user.username}\nTelefon raqami: `{data["extra_number"][0]}` `{user.first_name}`\nJoylashuvi: [joylashuv📍](http://www.google.com/maps/place/{data["longitude"][0]},{data["latitude"][0]})\n\n*Buyurtmalar*:\n'
+            i=0
+            for product in data['products']:
+                pr = Products.objects.get(id=product)
+                name = pr.name
+                resp += f'{i+1}) {name} ({pr.price}) - {data["quanity"][i]} ta\n\n'
+            stng = Setting.objects.get(id=1)
+            token = stng.token
+            admins = list(stng.admins.split(","))
+            bot = Bot(token)
+            for admin in admins:
+                try:
+                    bot.send_message(chat_id=admin,text=resp, parse_mode=ParseMode.MARKDOWN)
+                except:
+                    pass
             return Response({'status': True},status=status.HTTP_201_CREATED)
         except:
             return Response({'status': False},status=status.HTTP_400_BAD_REQUEST)
