@@ -65,6 +65,14 @@ class LogoutView(APIView):
         token.delete()
         return Response({'status':True},status=status.HTTP_200_OK)
     
+    def get(self,request):
+        user = request.user
+        res = {
+            "username":user.username,
+            "number":user.first_name
+        }
+        return Response({'status':True,'user':res},status=status.HTTP_200_OK)
+    
 
     
 class CategoryView(APIView):
