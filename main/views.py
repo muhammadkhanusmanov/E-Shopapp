@@ -182,3 +182,12 @@ class Recomentgoods(APIView):
         data = RecomntsProduct.objects.all()
         data = RecomentSerializer(data,many=True).data
         return Response(data,status=status.HTTP_200_OK)
+
+class GetData(APIView):
+    def get(self, request):
+        try:
+            call_number = Setting.objects.get(id=1)
+            a,b = call_number.split(',')
+            return Response({'status':True,'number':a,'telegram':b},status=status.HTTP_200_OK)
+        except:
+            return Response({'status':False},status=status.HTTP_400_BAD_REQUEST)
