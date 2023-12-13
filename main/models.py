@@ -43,6 +43,11 @@ class MarketProduct(models.Model):
 class RecomntsProduct(models.Model):
     products = models.ManyToManyField(Products)
 
+class Setting(models.Model):
+    call_number = models.CharField(max_length=25)
+    token = models.TextField()
+    admins = models.TextField()
+
 
 
 
